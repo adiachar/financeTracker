@@ -1,10 +1,11 @@
 import express from 'express';
-import {getAllWallets, createNewWallet, deleteWallet} from '../control/wallets.js';
+import {getWallets, createWallet, deleteWallet} from '../control/wallets.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getAllWallets);
-router.post('/', createNewWallet);
-router.delete('/:walletId', deleteWallet);
+router.get('/', authMiddleware, getWallets);
+router.post('/', authMiddleware, createWallet);
+router.delete('/:walletId', authMiddleware, deleteWallet);
 
 export default router;

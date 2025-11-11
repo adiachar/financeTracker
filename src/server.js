@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { pool } from './config/db.js';
-import {authenticationRouter} from './router/authentication.js';
-import {budgetsRouter} from "./router/budgets.js";
-import {reportRouter} from "./router/report.js";
-import {transactionsRouter} from "./router/transactions.js";
-import {walletsRouter} from "./router/wallets.js";
+import authenticationRouter from './router/authentication.js';
+import budgetsRouter from "./router/budgets.js";
+import reportRouter from "./router/report.js";
+import transactionsRouter from "./router/transactions.js";
+import walletsRouter from "./router/wallets.js";
 
 dotenv.config();
 
@@ -35,6 +35,12 @@ app.use('/api/wallets', walletsRouter);
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/budgets', budgetsRouter);
 app.use('/api/report', reportRouter);
+
+
+app.use((err, req, res, next) => {
+    console.log(err.message);
+    res.status(500).json({message: "Internal Server Error!"});
+});
 
 
 app.listen(PORT, async () => {

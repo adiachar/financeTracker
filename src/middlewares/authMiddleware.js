@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 
-const authMiddleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if(!authHeader) {
         return res.status(401).json({message: "Access denied. No authorization header provided."});
@@ -21,5 +21,3 @@ const authMiddleware = (req, res, next) => {
         return res.status(403).json({message: "Invalid or expired token."});
     }
 }
-
-export default authMiddleware;

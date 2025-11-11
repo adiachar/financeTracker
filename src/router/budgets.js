@@ -1,9 +1,10 @@
 import express from 'express';
-import {getAllBudgets, setBudget} from '../control/budgets.js';
+import {getBudgets, setBudget} from '../control/budgets.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getAllBudgets);
-router.post('/', setBudget);
+router.get('/', authMiddleware, getBudgets);
+router.post('/', authMiddleware, setBudget);
 
 export default router;
