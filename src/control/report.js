@@ -5,22 +5,24 @@ export const getReport = async (req, res, next) => {
     const today = new Date();
     const month = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
     const startDate = `${month}-01`;
-    const endDate = `${month}-31`;
 
+    console.log(userId);
     try {
         const [rows] = await pool.query(
             `
             SELECT t.type, SUM(t.amount) AS total
             FROM transactions t
             JOIN wallets w ON t.walletId = w.id
-            WHERE w.userId = ? AND t.date BETWEEN ? AND ?
+            WHERE w.userId = ? AND t.date >= ?
             GROUP BY t.type
             `,
-            [userId, startDate, endDate]
+            [userId, startDate]
         );
         
         let totalIncome = 0.0;
         let totalExpense = 0.0;
+
+        console.log(rows)
 
         for(let row of rows) {
             if(row.type === 'income') {
